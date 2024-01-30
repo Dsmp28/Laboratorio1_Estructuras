@@ -1,51 +1,48 @@
+import java.util.Arrays;
 import java.util.Random;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        // Crear la matriz original
+        int[] originalValues = createValues();
 
-        //BubbleSort con su matriz
-        int[] values = CreateValues();
-        long bubbleTime = BubbleSort(values);
+        // BubbleSort con su matriz
+        int[] bubbleValues = Arrays.copyOf(originalValues, originalValues.length);
+        long bubbleTime = bubbleSort(bubbleValues);
         System.out.println("Tiempo de ejecución de Bubble Sort en ms: " + bubbleTime);
 
-        //MergeSort con su matriz
-        values = CreateValues();
-        long firstTime = System.currentTimeMillis();
-        MergeSort(values, 0, values.length - 1);
-        long lastTime = System.currentTimeMillis();
-
-        long mergeTime = lastTime - firstTime;
+        // MergeSort con su matriz
+        int[] mergeValues = Arrays.copyOf(originalValues, originalValues.length);
+        long mergeTime = mergeSort(mergeValues, 0, mergeValues.length - 1);
         System.out.println("Tiempo de ejecución de Merge Sort en ms: " + mergeTime);
 
-        //SelectionSort con su matriz
-        values = CreateValues();
-        long selectionTime = SelectionSort(values);
+        // SelectionSort con su matriz
+        int[] selectionValues = Arrays.copyOf(originalValues, originalValues.length);
+        long selectionTime = selectionSort(selectionValues);
         System.out.println("Tiempo de ejecución de Selection Sort en ms: " + selectionTime);
-
     }
-    private static int[] CreateValues(){
+
+    private static int[] createValues() {
         Random random = new Random();
         int[] valores = new int[1000];
 
-        for (int i = 0; i < 1000; i++){
+        for (int i = 0; i < 1000; i++) {
             valores[i] = random.nextInt(101);
         }
 
         return valores;
     }
 
-    private static long BubbleSort (int[] values){
+    private static long bubbleSort(int[] values) {
         int n = values.length;
         long firstTime = System.currentTimeMillis();
-        for (int i = 0; i < n-1; i++) {
-            for (int j = 0; j < n-i-1; j++) {
-                if (values[j] > values[j+1]) {
-                    //intercambio
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (values[j] > values[j + 1]) {
+                    // Intercambio
                     int temp = values[j];
-                    values[j] = values[j+1];
-                    values[j+1] = temp;
+                    values[j] = values[j + 1];
+                    values[j + 1] = temp;
                 }
             }
         }
@@ -54,17 +51,21 @@ public class Main {
         return lastTime - firstTime;
     }
 
-    private static void MergeSort (int[] values, int left, int right){
+    private static long mergeSort(int[] values, int left, int right) {
+        long firstTime = System.currentTimeMillis();
         if (left < right) {
             int middle = (left + right) / 2;
 
             // Dividir la mitad izquierda y derecha
-            MergeSort(values, left, middle);
-            MergeSort(values, middle + 1, right);
+            mergeSort(values, left, middle);
+            mergeSort(values, middle + 1, right);
 
             // Combinar las mitades ordenadas
             merge(values, left, middle, right);
         }
+        long lastTime = System.currentTimeMillis();
+
+        return lastTime - firstTime;
     }
 
     private static void merge(int[] arr, int left, int middle, int right) {
@@ -82,7 +83,7 @@ public class Main {
 
         for (int j = 0; j < n2; ++j){
             rightArray[j] = arr[middle + 1 + j];
-            }
+        }
 
         // Combinar los arreglos temporales
         int i = 0, j = 0, k = left;
@@ -112,19 +113,16 @@ public class Main {
         }
     }
 
-    private static long SelectionSort(int[] values){
+    private static long selectionSort(int[] values) {
         int n = values.length;
         long firstTime = System.currentTimeMillis();
-        for (int i = 0; i < n - 1; i++){
-
+        for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
-
-            for (int j = i + 1; j < n; j++){
-                if (values[j] < values[minIndex]){
+            for (int j = i + 1; j < n; j++) {
+                if (values[j] < values[minIndex]) {
                     minIndex = j;
                 }
             }
-
             int temp = values[i];
             values[i] = values[minIndex];
             values[minIndex] = temp;
