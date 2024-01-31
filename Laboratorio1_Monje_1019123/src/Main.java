@@ -6,6 +6,12 @@ public class Main {
         // Crear la matriz original
         int[] originalValues = createValues();
 
+        // Imprimir la matriz original
+        System.out.println("Matriz original:");
+        printValues(originalValues);
+        System.out.println();
+        System.out.println();
+
         // BubbleSort con su matriz
         int[] bubbleValues = Arrays.copyOf(originalValues, originalValues.length);
         long bubbleTime = bubbleSort(bubbleValues);
@@ -20,6 +26,17 @@ public class Main {
         int[] selectionValues = Arrays.copyOf(originalValues, originalValues.length);
         long selectionTime = selectionSort(selectionValues);
         System.out.println("Tiempo de ejecución de Selection Sort en ms: " + selectionTime);
+    }
+
+    private static void printValues(int[] values) {
+
+        for (int i = 0; i < values.length; i++) {
+            if (i % 35 == 0){
+                System.out.println();
+            }else {
+                System.out.print(values[i] + " ");
+            }
+        }
     }
 
     private static int[] createValues() {
